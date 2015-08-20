@@ -76,10 +76,9 @@ class DependencyBlacklistPlugin implements Plugin<Project> {
 
                 externalDependencies.each { dependency ->
                     DependencyCoordinates dependencyCoordinates = new DependencyCoordinates(dependency.group, dependency.name, dependency.version)
-
-                    if(extension.flag.containsBlocked(dependencyCoordinates)) {
+                    if(extension.flag.containsBlocked(dependencyCoordinates, project)) {
                         throw new BlockedDependencyDeclarationException("Dependency '$dependencyCoordinates' is blocked. Please pick different coordinates.")
-                    } else if (extension.flag.containsWarned(dependencyCoordinates)) {
+                    } else if (extension.flag.containsWarned(dependencyCoordinates, project)) {
                         project.logger.warn "Dependency '$dependencyCoordinates' is flagged as potential issue. It might get blacklisted in the future."
                     }
                 }
